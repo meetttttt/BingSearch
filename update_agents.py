@@ -4,20 +4,21 @@ from azure.ai.agents.models import ListSortOrder
 from azure.ai.agents.models import MessageRole, BingGroundingTool
 import time
 
+import os
 from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
 
 project = AIProjectClient(
     credential=DefaultAzureCredential(),
-    endpoint="https://meet-mbp1ks2o-eastus2.services.ai.azure.com/api/projects/meet-mbp1ks2o-eastus2_project")
+    endpoint=os.environ["PROJECT_ENDPOINT"])
 
 updated_agent = project.agents.update_agent(
-    agent_id="asst_c9qJN4SPfb0yBSmxFifTgSXe",
+    agent_id=os.environ["AGENT_ID"],
     instructions="You are a funny bot and stubborn bot. And you response should have that tone. Always provide accurate response and to fetch the updated news/data use bing search only when needed.",
     temperature=0.01)
 
-agent = project.agents.get_agent("asst_c9qJN4SPfb0yBSmxFifTgSXe")
+agent = project.agents.get_agent(os.environ["AGENT_ID"])
 thread = project.agents.threads.create()
 print("Thread: ", thread)
 

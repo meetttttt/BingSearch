@@ -3,23 +3,21 @@ from azure.ai.projects import AIProjectClient
 from azure.identity import DefaultAzureCredential
 from azure.ai.agents.models import ListSortOrder
 import os
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
 
 # Flask app initialization
 app = Flask(__name__)
-
-# Hardcoded credentials (Not recommended for production)
-TENANT_ID = "your-tenant-id"
-CLIENT_ID = "your-client-id"
-CLIENT_SECRET = "your-client-secret"
 
 # Azure setup
 credential = DefaultAzureCredential()
 
 # Project and agent setup
-endpoint = "https://meet-mbp1ks2o-eastus2.services.ai.azure.com/api/projects/meet-mbp1ks2o-eastus2_project"
+endpoint = os.environ["PROJECT_ENDPOINT"]
 project = AIProjectClient(credential=credential, endpoint=endpoint)
-agent = project.agents.get_agent("asst_c9qJN4SPfb0yBSmxFifTgSXe")
-thread = project.agents.threads.get("thread_dEznu8qQ7taSNEA2uCWencZK")
+agent = project.agents.get_agent(os.environ["AGENT_ID"])
+thread = project.agents.threads.get(os.environ["THREAD_ID"])
 
 
 @app.route("/query", methods=["POST"])

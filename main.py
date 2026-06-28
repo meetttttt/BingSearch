@@ -1,14 +1,18 @@
+import os
 from azure.ai.projects import AIProjectClient
 from azure.identity import DefaultAzureCredential
 from azure.ai.agents.models import ListSortOrder
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
 
 project = AIProjectClient(
     credential=DefaultAzureCredential(),
-    endpoint="https://meet-mbp1ks2o-eastus2.services.ai.azure.com/api/projects/meet-mbp1ks2o-eastus2_project")
+    endpoint=os.environ["PROJECT_ENDPOINT"])
 
-agent = project.agents.get_agent("asst_c9qJN4SPfb0yBSmxFifTgSXe")
+agent = project.agents.get_agent(os.environ["AGENT_ID"])
 
-thread = project.agents.threads.get("thread_9cgyfQZLKF0qWZ0P4dJDA8v0")
+thread = project.agents.threads.get(os.environ["THREAD_ID"])
 
 message = project.agents.messages.create(
     thread_id=thread.id,

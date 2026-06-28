@@ -1,3 +1,4 @@
+import os
 from azure.ai.projects import AIProjectClient
 from azure.identity import DefaultAzureCredential
 
@@ -7,7 +8,7 @@ load_dotenv(find_dotenv())
 
 project = AIProjectClient(
     credential=DefaultAzureCredential(),
-    endpoint="https://meet-mbp1ks2o-eastus2.services.ai.azure.com/api/projects/meet-mbp1ks2o-eastus2_project")
+    endpoint=os.environ["PROJECT_ENDPOINT"])
 
 list_agents = project.agents.list_agents()
 

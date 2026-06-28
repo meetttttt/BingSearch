@@ -23,17 +23,16 @@ import os
 from azure.ai.projects import AIProjectClient
 from azure.ai.agents.models import MessageRole, BingGroundingTool
 from azure.identity import DefaultAzureCredential
+from dotenv import load_dotenv, find_dotenv
 
+load_dotenv(find_dotenv())
 
 project_client = AIProjectClient(
-    # endpoint=os.environ["PROJECT_ENDPOINT"],
-    endpoint="https://meet-mbp1ks2o-eastus2.services.ai.azure.com/api/projects/meet-mbp1ks2o-eastus2_project",
+    endpoint=os.environ["PROJECT_ENDPOINT"],
     credential=DefaultAzureCredential(),
     )
 
-# [START create_agent_with_bing_grounding_tool]
-# conn_id = "/subscriptions/37599302-6a65-4cc6-811d-02b6b95e4015/resourceGroups/Search-Solution/providers/Microsoft.MachineLearningServices/workspaces/Test-Workspace/connections/{connection-name}"
-conn_id = """/subscriptions/37599302-6a65-4cc6-811d-02b6b95e4015/resourceGroups/Search-Solution/providers/Microsoft.MachineLearningServices/accounts/meet-mbp1ks2o-eastus2/projects/meet-mbp1ks2o-eastus2_project/connections/Search"""
+conn_id = os.environ["BING_CONNECTION_ID"]
 
 # Initialize agent bing tool and add the connection id
 bing = BingGroundingTool(connection_id=conn_id)
